@@ -1,0 +1,78 @@
+@Author: Justin Hershberger
+@Date:   24-02-2017
+@Filename: junk.txt
+@Last modified by:   Justin Hershberger
+@Last modified time: 06-03-2017
+
+##########################################
+To Do list
+##########################################
+
+1) add 25 points to score when a row is completed
+2) particle emit when block is eliminated
+3) add high scores to local storage and query them for the high scores page
+4) on exit restart the blocks and the score
+5) for each 100 points, add a second ball
+6) add soundtrack
+7) maybe widen the game or center it on the screen
+
+
+
+#########################################
+  Misc. Notes
+#########################################
+// function mouseEvent(e) {
+//   e.preventDefault();
+//   e.stopPropagation();
+//
+//   var mouse_x = parseInt(e.clientX - offset_x);
+//   var mouse_y = parseInt(e.clientY - offset_y);
+//   var dx = mouse_x - 300;
+//   var dy = mouse_y - 200;
+//
+//   var dist = Math.abs(Math.sqrt(dx*dx+dy*dy));
+//   var toggle = false;
+//
+//   if (dist < tolerance){
+//     toggle = true;
+//     // context.clearRect(300, 200, 20, 20);
+//     context.fillStyle = '#66ccff';
+//     context.textAlign = 'center';
+//
+//     context.shadowColor = 'black';
+//     context.shadowBlur = 7;
+//     context.lineWidth = 5;
+//     context.font = '30px Calibri';
+//
+//     context.strokeText('Play', 300, 200);
+//     context.fillText('Play', 300, 200);
+//
+//   }
+//   if(toggle == true && dist >= tolerance) {
+//     toggle = false;
+//     console.log('here');
+//     context.fillStyle = '#b3b3b3';
+//     context.textAlign = 'center';
+//
+//     context.shadowColor = 'black';
+//     context.shadowBlur = 7;
+//     context.lineWidth = 5;
+//     context.font = '30px Calibri';
+//
+//     context.strokeText('Play', 300, 200);
+//     context.fillText('Play', 300, 200);
+//   }
+//
+// }
+
+###############################################################
+  References
+###############################################################
+
+yellow_block - http://www.clker.com/clipart-6528.html
+
+orange_block - http://www.clker.com/clipart-6525.html
+
+green_block - http://www.clker.com/clipart-6523.html
+
+blue_block - http://www.clker.com/clipart-6522.html

@@ -1,0 +1,41 @@
+/**
+* @Author: Justin Hershberger
+* @Date:   22-02-2017
+* @Filename: main.css
+* @Last modified by:   Justin Hershberger
+* @Last modified time: 06-03-2017
+*/
+#countCanvas {
+  position: absolute;
+  left: 3;
+  top: 0;
+  z-index: 4;
+}
+
+#gameCanvas {
+  position: absolute;
+  left: 3;
+  top: 0;
+  z-index: 2;
+}
+
+#menuCanvas {
+  position: absolute;
+  left: 3;
+  top: 0;
+  z-index: 0;
+}
+
+#blockCanvas {
+  position: absolute;
+  left: 3;
+  top: 0;
+  z-index: 3;
+}
+
+#menuSprite {
+  position: absolute;
+  left: 3;
+  top: 0;
+  z-index: 1;
+}

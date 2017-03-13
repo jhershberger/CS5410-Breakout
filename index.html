@@ -1,0 +1,57 @@
+<!--
+@Author: Justin Hershberger
+@Date:   22-02-2017
+@Filename: index.html
+@Last modified by:   Justin Hershberger
+@Last modified time: 12-03-2017
+-->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Breakout</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="main.css">
+
+  </head>
+  <body onload="Game.initialize();Graphics.blocks.drawBlocks();Menu.drawTitle();">
+    <div class="panel">
+      <!-- <div class="panel-heading"><h3>Maze</h3></div> -->
+      <div class="panel-body gameContent">
+        <div class="row">
+          <div class="col-md-6 pull-left cnvCont">
+            <canvas id="menuCanvas" width=1000 height=600 style="border:1px solid #000000;"></canvas>
+            <canvas id="gameCanvas" width=1000 height=600 style="border:1px solid #000000;"></canvas>
+            <canvas id="menuSprite" class="hidden" width=1000 height=600 style="border:1px solid #000000;"></canvas>
+            <canvas id="blockCanvas" class="hidden" width=1000 height=600 style="border:1px solid #000000;"></canvas>
+            <canvas id="countCanvas" class="hidden" width=1000 height=600 style="border:1px solid #000000;"></canvas>
+          </div>
+        </div>
+        <div class="row">
+          <a href='http://www.freepik.com/free-vector/brick-texture-background_854395.htm'>Background Picture by Freepik</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javaScript" src="main.js"></script>
+    <script type="text/javaScript" src="Blocks.js"></script>
+    <script type="text/javaScript" src="graphics.js"></script>
+    <script type="text/javaScript" src="controls.js"></script>
+    <script type="text/javaScript" src="menu.js"></script>
+    <script type="text/javaScript" src="high_scores.js"></script>
+    <script type="text/javaScript" src="gameOver.js"></script>
+  </body>
+</html>
