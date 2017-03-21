@@ -3,7 +3,7 @@
 * @Date:   24-02-2017
 * @Filename: menu.js
 * @Last modified by:   Justin Hershberger
-* @Last modified time: 12-03-2017
+* @Last modified time: 20-03-2017
 */
 
 //the menu loop will handle only the menu sequence
@@ -100,9 +100,6 @@ let Menu = (function() {
       context.strokeText('Controls', x, 400);
       context.fillText('Controls', x, 400);
 
-      context.strokeText('Exit', x, 500);
-      context.fillText('Exit', x, 500);
-
       context.font = '20px Calibri';
 
       context.strokeText('Press ENTER to select an option', x, 580);
@@ -131,25 +128,20 @@ let Menu = (function() {
   function highlightOption(x,y) {
     canvas = $('#menuSprite')[0];
     context = canvas.getContext('2d');
-    // console.log(y);
     switch (y) {
       case 200:
-        // $('#menuSprite').removeClass('hidden');
         context.clearRect(0,0, canvas.width, canvas.height);
         context.drawImage(arrow, x-80, 140, 50, 100);
         break;
       case 300:
-        // $('#menuSprite').removeClass('hidden');
         context.clearRect(0,0, canvas.width, canvas.height);
         context.drawImage(arrow, x-120, 240, 50, 100);
         break;
       case 400:
-        // $('#menuSprite').removeClass('hidden');
         context.clearRect(0,0, canvas.width, canvas.height);
         context.drawImage(arrow, x-100, 340, 50, 100);
         break;
       case 500:
-        // $('#menuSprite').removeClass('hidden');
         context.clearRect(0,0, canvas.width, canvas.height);
         context.drawImage(arrow, x-80, 440, 50, 100);
         break;
@@ -158,27 +150,26 @@ let Menu = (function() {
   }
 
   that.selectOption = function() {
-    // menu_count = 3;
     switch (menu_count) {
-      case 0:
+      case 0: //play
         menu_count = 0;
         num_play += 1;
 
         context.clearRect(0,0,canvas.width, canvas.height);
+
         $('#menuSprite').addClass('hidden');
         $('#gameCanvas').removeClass('hidden');
         $('#blockCanvas').removeClass('hidden');
-        // Graphics.gameBall.pause;
+
         if (num_play == 1) {
           context.drawImage(bg, 0, 0, canvas.width, canvas.height);
           Graphics.paddle.drawPaddle();
-          Graphics.gameBall.drawBall();
+          // Graphics.gameBall().drawBall();
 
           Game.start_countdown = true;
           Game.countdown_times = 3;
           Game.countdown= 0;
         } else {
-
           Game.start_countdown = true;
           Game.countdown_times = 3;
           Game.countdown= 0;
@@ -186,22 +177,15 @@ let Menu = (function() {
           $('#countCanvas').removeClass('hidden');
         }
         break;
-      case 1:
+      case 1: //high_scores
         menu_count = 0;
         context.clearRect(0,0,canvas.width, canvas.height);
         HighScores.initialize();
         break;
-      case 2:
-        // console.log('here');
+      case 2: //controls
         menu_count = 0;
         context.clearRect(0,0,canvas.width, canvas.height);
-        // $('#menuSprite').addClass('hidden');
         Controls.initialize();
-        break;
-      case 3:
-        menu_count = 0;
-        context.clearRect(0,0,canvas.width, canvas.height);
-        drawTitle();
         break;
     }
   };
@@ -209,7 +193,8 @@ let Menu = (function() {
   //this is the down arrow highlight function, it will increment the options as
   //the user goes down the list
   that.dn_hlt = function() {
-    if (menu_count >= 3) {
+    //toggle the options arrow
+    if (menu_count >= 2) {
       menu_count = 0;
     } else {
       menu_count += 1;
@@ -225,9 +210,6 @@ let Menu = (function() {
       case 2:
         highlightOption(x,400)
         break;
-      case 3:
-        highlightOption(x,500)
-        break;
     }
 
 
@@ -237,7 +219,7 @@ let Menu = (function() {
   //This is the up highlight function, it will decrement as the user goes up
   that.up_hlt = function() {
     if (menu_count <= 0) {
-      menu_count = 3;
+      menu_count = 2;
     } else {
       menu_count -= 1;
     }
@@ -252,18 +234,8 @@ let Menu = (function() {
       case 2:
         highlightOption(x,400)
         break;
-      case 3:
-        highlightOption(x,500)
-        break;
     }
   };
-
-  // drawTitle();
-  //this is the initialization function that starts up the menu sequence
-  // that.initialize = function() {
-  //   Game.initialize();
-  //
-  // };
 
   return that;
 }());

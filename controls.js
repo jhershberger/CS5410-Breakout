@@ -3,7 +3,7 @@
 * @Date:   25-02-2017
 * @Filename: controls.js
 * @Last modified by:   Justin Hershberger
-* @Last modified time: 12-03-2017
+* @Last modified time: 13-03-2017
 */
 
 
@@ -51,14 +51,15 @@ let Controls = (function(){
 
         context.font = '30px Calibri';
 
-        context.strokeText('Move Paddle: Mouse', x, 200);
-        context.fillText("Move Paddle: Mouse", x,  200);
+        context.strokeText('Move Paddle Left: Left Arrow', x, 200);
+        context.fillText("Move Paddle Left: Left Arrow", x,  200);
 
-        context.strokeText('Open Menu: Esc', x, 300);
-        context.fillText("Open Menu: Esc", x,  300);
+        context.strokeText('Move Paddle Right: Right Arrow', x, 300);
+        context.fillText("Move Paddle Right: Right Arrow", x,  300);
 
-        context.strokeText('Toggle HUD: Alt', x, 400);
-        context.fillText("Toggle HUD: Alt", x,  400);
+        context.strokeText('Open Menu: Esc', x, 400);
+        context.fillText("Open Menu: Esc", x,  400);
+
 
         context.font = '20px Calibri';
 

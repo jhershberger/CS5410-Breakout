@@ -3,7 +3,7 @@
 * @Date:   25-02-2017
 * @Filename: high_scores.js
 * @Last modified by:   Justin Hershberger
-* @Last modified time: 12-03-2017
+* @Last modified time: 19-03-2017
 */
 
 let HighScores = (function(){
@@ -49,25 +49,43 @@ let HighScores = (function(){
 
         context.font = '30px Calibri';
 
-        context.strokeText('1) Your name here', x, 200);
-        context.fillText("1) Your name here", x,  200);
+        let localStorageArray = [];
 
-        context.strokeText('2) Your name here', x, 275);
-        context.fillText("2) Your name here", x,  275);
+        for (let i=0; i < localStorage.length; i++) {
+          let key = localStorage.key(i);
+          localStorageArray.push(key);
+          // localStorage.removeItem(localStorage[key]);
 
-        context.strokeText('3) Your name here', x, 350);
-        context.fillText("3) Your name here", x,  350);
+        }
 
-        context.strokeText('4) Your name here', x, 425);
-        context.fillText("4) Your name here", x,  425);
+        //sort the high scores in descending order
+        localStorageArray.sort(function(a, b){return b-a});
 
-        context.strokeText('5) Your name here', x, 500);
-        context.fillText("5) Your name here", x,  500);
+
+        if(localStorageArray.length > 5) {
+          localStorage.removeItem(localStorageArray[5]);
+
+          for (let i=0; i < 5; i++) {
+            // let key = localStorage.key(i);
+            context.strokeText((i+1)+') ' + localStorage.getItem(localStorageArray[i])+ ': ' + localStorageArray[i], x, (i*75) + 200);
+            context.fillText((i+1)+') ' + localStorage.getItem(localStorageArray[i])+ ': ' + localStorageArray[i], x, (i*75) + 200);
+          }
+
+        } else {
+          for (let i=0; i < localStorageArray.length; i++) {
+            // let key = localStorageArray.key(i);
+            context.strokeText((i+1)+') ' + localStorage.getItem(localStorageArray[i])+ ': ' + localStorageArray[i], x, (i*75) + 200);
+            context.fillText((i+1)+') ' + localStorage.getItem(localStorageArray[i])+ ': ' + localStorageArray[i], x, (i*75) + 200);
+          }
+        }
 
         context.font = '20px Calibri';
 
-        context.strokeText('Press ESC To Exit High Scores', x, 580);
-        context.fillText("Press ESC To Exit High Scores", x,  580);
+        context.strokeText('Press ESC To Exit High Scores', x - 200, 580);
+        context.fillText("Press ESC To Exit High Scores", x - 200,  580);
+
+        context.strokeText('Press ALT + R To Reset High Scores', x + 200, 580);
+        context.fillText("Press ALT + R To Reset High Scores", x + 200,  580);
 
       }
 
@@ -83,9 +101,21 @@ let HighScores = (function(){
   that.initialize = function() {
     window.addEventListener('keydown', keyDown, true);
     $('#menuSprite').addClass('hidden');
+
     //on space
     inputDispatch[27] = Menu.drawMenu;
-    inputDispatch[32] = Menu.drawMenu;
+
+    let clearScores = function (e) {
+      if (e.keyCode == 82 && e.altKey) {
+
+        localStorage.clear();
+        drawHighScores();
+      }
+    };
+
+    //if the user enters 'alt + r', reset the high scores
+    document.onkeydown = clearScores;
+
     drawHighScores();
   };
 

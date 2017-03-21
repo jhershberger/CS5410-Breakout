@@ -3,7 +3,7 @@
 * @Date:   22-02-2017
 * @Filename: Block.js
 * @Last modified by:   Justin Hershberger
-* @Last modified time: 06-03-2017
+* @Last modified time: 19-03-2017
 */
 
 
@@ -57,7 +57,6 @@ let Blocks = (function() {
       }
     }
 
-    // console.log(blocks);
   }
   that.blocks = function() {
     return blocks;

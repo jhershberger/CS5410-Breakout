@@ -3,7 +3,7 @@
 * @Date:   06-03-2017
 * @Filename: gameOver.js
 * @Last modified by:   Justin Hershberger
-* @Last modified time: 12-03-2017
+* @Last modified time: 19-03-2017
 */
 
 
@@ -15,6 +15,8 @@ let GameOver = (function () {
   let bg = new Image();
   let bg_ready = false;
   let x = 500;
+  let abc = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+  let abc_index = 0;
 
   bg.onload = () => {
     bg_ready = true;
@@ -44,6 +46,10 @@ let GameOver = (function () {
       context.strokeText('Your Score: ' + score, x, 300);
       context.fillText("Your Score: " + score, x,  300);
 
+      context.strokeText('Enter Your Initials: ', x, 400);
+      context.fillText("Enter Your Initials: ", x,  400);
+
+      $('.initials').removeClass('hidden');
 
 
       context.font = '20px Calibri';
@@ -73,9 +79,16 @@ let GameOver = (function () {
 
       context.font = '30px Calibri';
 
-      context.strokeText('Your Score: ' + score, x, 200);
-      context.fillText("Your Score: " + score, x,  200);
+      context.strokeText('Your Score: ' + score, x, 300);
+      context.fillText("Your Score: " + score, x,  300);
 
+      context.strokeText('Enter Your Initials: ', x, 400);
+      context.fillText("Enter Your Initials: ", x,  400);
+
+      context.strokeText('Enter Your Initials: ', x, 400);
+      context.fillText("Enter Your Initials: ", x,  400);
+
+      $('.initials').removeClass('hidden');
 
 
       context.font = '20px Calibri';

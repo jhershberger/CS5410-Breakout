@@ -3,39 +3,53 @@
 * @Date:   22-02-2017
 * @Filename: main.css
 * @Last modified by:   Justin Hershberger
-* @Last modified time: 06-03-2017
+* @Last modified time: 16-03-2017
 */
+.panel {
+  background-color: #1a1a1a;
+}
+
+body {
+  background-color: #1a1a1a;
+}
+
 #countCanvas {
   position: absolute;
-  left: 3;
+  left: 25%;
   top: 0;
   z-index: 4;
 }
 
 #gameCanvas {
   position: absolute;
-  left: 3;
+  left: 25%;
   top: 0;
   z-index: 2;
 }
 
 #menuCanvas {
   position: absolute;
-  left: 3;
+  left: 25%;
   top: 0;
   z-index: 0;
 }
 
 #blockCanvas {
   position: absolute;
-  left: 3;
+  left: 25%;
   top: 0;
   z-index: 3;
 }
 
 #menuSprite {
   position: absolute;
-  left: 3;
+  left: 25%;
   top: 0;
   z-index: 1;
+}
+
+.initials {
+  position: absolute;
+  left: 85%;
+  top: 450px;
 }
