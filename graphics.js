@@ -17,6 +17,7 @@ let Graphics = (function(){
   let p_ready = false;
   let x = 300;
   let active_balls = [];
+  let check_hundred = 100;
   let collide_audio = new Audio('Sounds/stop.flac');
   that.total_lives = 3;
   that.score = 0;
@@ -36,21 +37,20 @@ let Graphics = (function(){
   //this is the gameBall sprite
   that.gameBall = function(x,y) {
     let that = {};
-    that.pos = {x: x, y: y, dx: 2, dy: 4};
+    that.pos = {x: x, y: y, dx: 2, dy: -4};
     active_balls.push(that.pos);
-    let speed = 0.50;
+    let speed = 0.60;
     let speed_increment = 0.25;
     let max_speed = 1.0;
-    // let dx = 2;
-    // let dy = 4;
     let radius = 10;
     let pad_x = 0;
     let pad_y = 0;
     let blocks = Blocks.blocks();
     let magnitude = -1;
     let green_count = 0;
-    let total_blocks = 0;
     let life_blocks = 0;
+    let rows = 8;
+    let cols = 14;
 
 
 
@@ -66,11 +66,46 @@ let Graphics = (function(){
 
     function detectDeath(x, y, dy) {
       if (dy > 0 && y >= 580 ) {
-        // for (let j=0; j < active_balls.length; j++) {
-        //   if (active_balls[j].x == x && active_balls[j].y == y) {
-        //     active_balls.splice(j, 1);
-        //   }
-        // }
+        //remove the ball the died from the active balls array
+        for (let j=0; j < active_balls.length; j++) {
+          if (active_balls[j].x == x && active_balls[j].y == y) {
+            active_balls.splice(j, 1);
+          }
+        }
+
+        //if there are no active balls in play, deduct a life and either end the game
+        //or spawn a new ball
+        if(active_balls.length == 0) {
+          //if the user dies, update the total lives and reset to a proper game state
+          Game.init_gb = true;
+          Graphics.total_lives -= 1;
+          that.speed = 0.5;
+          life_blocks = 0;
+          green_count = 0;
+          that.pos = {x: Graphics.paddle.center.x + (Graphics.paddle.width / 2), y: Graphics.paddle.center.y};
+          Graphics.paddle.width = 100;
+
+          dx = 2;
+          dy = -4;
+
+          Game.start_countdown = true;
+          Game.countdown_times = 3;
+          Game.countdown= 0;
+          that.drawBall();
+          Graphics.drawCountdown(Game.countdown_times);
+
+          //check if the user just lost
+          if (Graphics.total_lives <= 0) {
+            //end the game
+            Game.gameOver = true;
+            Game.start_countdown = false;
+            Game.countdown_times = -2;
+            Game.countdown= 0;
+            $('#gameCanvas').addClass('hidden');
+            $('#blockCanvas').addClass('hidden');
+            GameOver.drawLoss(Graphics.score);
+          }
+        }
         return true;
 
       } else {
@@ -80,6 +115,7 @@ let Graphics = (function(){
 
     }
 
+    //detect if the game ball collides with the paddle
     function paddleIntersect(x, y, dx, dy) {
       if (dy > 0 && ((x + dx) <= pad_x + Graphics.paddle.width + 10 && (x + dx) >= pad_x - 15) && (y + dy >= 510 && y + dy <= 515 ) ) {
         return true;
@@ -88,16 +124,20 @@ let Graphics = (function(){
       }
     }
 
+    //detect if the game ball collides with any block
     function blockIntersect(x, y, dx, dy) {
-      for (let i=0; i < 8; i++) {
-        for (let j=0; j < 14; j++) {
+      for (let i=0; i < rows; i++) {
+        for (let j=0; j < cols; j++) {
           if(typeof(blocks[i][j]) != 'undefined') {
 
             if (x + dx <= blocks[i][j].x + 70 && x + dx >= blocks[i][j].x - 10 && y + dy >= blocks[i][j].y - 5  && y + dy <= blocks[i][j].y + 32 ) {
-              total_blocks += 1;
+              //see if the user hit the last block
+
+              //increment the blocks hit for the current life
               life_blocks += 1;
 
               //play the collision sound
+              collide_audio.volume = 0.3;
               collide_audio.play();
 
               //set the blockCollision flag to true to start rendering particles
@@ -105,9 +145,14 @@ let Graphics = (function(){
               Game.blockCollision.x = blocks[i][j].x;
               Game.blockCollision.y = blocks[i][j].y;
 
+              //see if the next score will put the total over 100
+              if (Graphics.score + blocks[i][j].points >= check_hundred) {
+                Game.every_hundred = true;
+                check_hundred += 100;
+              }
+
               //update the score
               Graphics.score += blocks[i][j].points;
-
 
               //check if we hit a green block for the first time
               if (blocks[i][j].color == 'Green') {
@@ -134,29 +179,38 @@ let Graphics = (function(){
 
               //if the row is empty add 25 to the user's score
               if (blocks[i].length == 0) {
+                //see if the row break will put the score over the next hundred
+                if (Graphics.score + 25 >= check_hundred) {
+                  Game.every_hundred = true;
+                  check_hundred += 100;
+                }
+
+                //update the score by 25 points
                 Graphics.score += 25;
               }
-              // Game.blockCollision.active = false;
               return true;
             }
           } else {
-            //see if the user won
-            if (Graphics.score == 508) {
-              //end the game
-              Game.gameOver = true;
-              Game.start_countdown = false;
-              Game.countdown_times = -2;
-              Game.countdown= 0;
-              $('#gameCanvas').addClass('hidden');
-              $('#blockCanvas').addClass('hidden');
-              GameOver.drawWin(Graphics.score);
-              break;
-            } else {
               //check if the game has been won.
-              continue;
-              return false;
+              if (Graphics.score >= 508) {
 
-            }
+                //add the bonuses based on number of lives left
+                Graphics.score += (Graphics.total_lives * 100);
+
+                //end the game
+                context.clearRect(0,0,canvas.width, canvas.height);
+                Game.pause = true;
+                Game.gameOver = true;
+                Game.start_countdown = false;
+                Game.countdown_times = -2;
+                Game.countdown= 0;
+                $('#gameCanvas').addClass('hidden');
+                $('#blockCanvas').addClass('hidden');
+                GameOver.drawWin(Graphics.score);
+              } else {
+                continue;
+              }
+              return false;
           }
         }
 
@@ -203,48 +257,14 @@ let Graphics = (function(){
         }
 
         if (detectDeath(active_balls[i].x, active_balls[i].y, active_balls[i].dy)) {
-
-          if(active_balls.length == 0) {
-            //if the user dies, update the total lives and reset to a proper game state
-            Graphics.total_lives -= 1;
-            that.speed = 0.5;
-            life_blocks = 0;
-            green_count = 0;
-            that.pos = {x: Graphics.paddle.center.x + (Graphics.paddle.width / 2), y: Graphics.paddle.center.y};
-            Graphics.paddle.width = 100;
-
-            dx = 2;
-            dy = -4;
-
-            Game.start_countdown = true;
-            Game.countdown_times = 3;
-            Game.countdown= 0;
-            that.drawBall();
-            Graphics.drawCountdown(Game.countdown_times);
-
-            //check if the user just lost
-            if (Graphics.total_lives <= 0) {
-              //end the game
-              Game.gameOver = true;
-              Game.start_countdown = false;
-              Game.countdown_times = -2;
-              Game.countdown= 0;
-              $('#gameCanvas').addClass('hidden');
-              $('#blockCanvas').addClass('hidden');
-              GameOver.drawLoss(Graphics.score);
-            } else {
-              active_balls.push({x:Graphics.paddle.x + 20, y:500, dx: 2, dy: -4});
-            }
-          }
-
+          //exit the loop upon death
+          break;
         }
 
         active_balls[i].x += active_balls[i].dx * speed;
         active_balls[i].y += active_balls[i].dy * speed;
       };
-      }
-      // that.createCircle(that.pos.x + 50, that.pos.y);
-
+    }
 
     that.pause = function() {
       dx = 2;

@@ -9,7 +9,6 @@
 //the menu loop will handle only the menu sequence
 let Menu = (function() {
   let that = {};
-  let inputDispatch = {};
   let menu_count = 0;
   let bg = new Image();
   let arrow = new Image();
@@ -164,7 +163,6 @@ let Menu = (function() {
         if (num_play == 1) {
           context.drawImage(bg, 0, 0, canvas.width, canvas.height);
           Graphics.paddle.drawPaddle();
-          // Graphics.gameBall().drawBall();
 
           Game.start_countdown = true;
           Game.countdown_times = 3;

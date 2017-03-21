@@ -15,7 +15,9 @@ let Game = (function() {
   let canvas = $('#menuCanvas')[0];
   let context = canvas.getContext('2d');
   let in_game = new Audio('Sounds/Journey to the East Rocks.ogg');
-  let gb = null;
+  that.every_hundred = false;
+  that.init_gb = false;
+  that.gb = null;
   let gb1 = null;
   that.countdown_times = 3;
   that.countdown= 1000;
@@ -83,20 +85,32 @@ let Game = (function() {
       that.start_countdown = false;
     }
 
+    //see if we need to add a game ball
+    if (that.init_gb) {
+      that.gb = Graphics.gameBall(Graphics.paddle.center.x + 20,500);
+      that.init_gb = false;
+    }
+
+    //every hundred points we want to spawn a new game ball
+    if (that.every_hundred) {
+      let gb1 = Graphics.gameBall(Graphics.paddle.center.x + 20,500);
+      that.every_hundred = false;
+    }
+
     //check if the game has ended
     if(that.gameOver) {
       particles = [];
       let storeScore = function() {
         localStorage.setItem(Graphics.score, $('.initials').val());
         location.reload();
+        return true;
       };
 
       inputDispatch[13] = storeScore;
       inputDispatch[32] = 0;
+      inputDispatch[27] = 0;
 
     }
-
-
   }
 
   function render() {
@@ -117,7 +131,7 @@ let Game = (function() {
     //draw the ball if we need to
     if (draw_ball_flag && !that.pause) {
       $('#blockCanvas').removeClass('hidden');
-      gb.drawBall();
+      that.gb.drawBall();
       // gb1.drawBall();
 
       //on enter
@@ -149,8 +163,8 @@ let Game = (function() {
   that.initialize = function() {
     window.addEventListener('keydown', keyDown, true);
     that.gameOver = false;
-    gb = Graphics.gameBall(505,500);
-    gb1 = Graphics.gameBall(325, 400);
+    that.init_gb = true;
+    // gb1 = Graphics.gameBall(325, 400);
 
     //initialize the game's soundtrack
     in_game.loop = true;
